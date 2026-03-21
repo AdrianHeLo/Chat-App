@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WhatsAppClone</string>
+    <string name="dialog_text_view">Please enter the name of chat group you want to create.</string>
+    <string name="dialog_edit_text">Please enter the name of chat group.</string>
+</resources>
