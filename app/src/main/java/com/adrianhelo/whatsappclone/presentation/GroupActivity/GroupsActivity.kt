@@ -1,6 +1,7 @@
 package com.adrianhelo.whatsappclone.presentation.GroupActivity
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrianhelo.whatsappclone.R
 import com.adrianhelo.whatsappclone.databinding.ActivityGroupsBinding
-import com.adrianhelo.whatsappclone.databinding.DialogAddNewGroupBinding
-import com.adrianhelo.whatsappclone.domain.model.ChatGroup
+import com.adrianhelo.whatsappclone.domain.model.ChatGroupModel
+import com.adrianhelo.whatsappclone.presentation.ChatActivity.ChatActivity
 import com.adrianhelo.whatsappclone.presentation.viewmodel.RepositoryViewModel
 
 class GroupsActivity : AppCompatActivity() {
@@ -37,14 +38,6 @@ class GroupsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView(){
-        groupAdapter = GroupAdapter(mutableListOf()){ selectItem ->
-            listItemClicked(selectItem)
-        }
-        binding.recyclerContainer.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerContainer.adapter = groupAdapter
-    }
-
     private fun getGroupsList(){
         setupRecyclerView()
         repositoryViewModel.getGroupsList().observe(this){ it ->
@@ -54,8 +47,18 @@ class GroupsActivity : AppCompatActivity() {
         }
     }
 
-    private fun listItemClicked(selectItem: ChatGroup) {
-        Toast.makeText(this, "Selected name is ${selectItem.groupName}", Toast.LENGTH_LONG).show()
+    private fun setupRecyclerView(){
+        groupAdapter = GroupAdapter(mutableListOf()){ selectItem ->
+            listItemClicked(selectItem)
+        }
+        binding.recyclerContainer.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerContainer.adapter = groupAdapter
+    }
+
+    private fun listItemClicked(selectItem: ChatGroupModel) {
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("Group Name", selectItem.groupName)
+        startActivity(intent)
     }
 
     private fun setAddGroupDialog(){
