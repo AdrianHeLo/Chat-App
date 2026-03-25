@@ -2,19 +2,20 @@ package com.adrianhelo.whatsappclone.presentation.GroupActivity
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.adrianhelo.whatsappclone.R
 import com.adrianhelo.whatsappclone.databinding.GroupsItemBinding
-import com.adrianhelo.whatsappclone.domain.model.ChatGroup
+import com.adrianhelo.whatsappclone.domain.model.ChatGroupModel
 
-class GroupAdapter(private var groupList: List<ChatGroup>, private val clickListener: (ChatGroup) -> Unit): RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
+class GroupAdapter(private var groupList: List<ChatGroupModel>, private val clickListener: (ChatGroupModel) -> Unit): RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     inner class GroupViewHolder(private val groupsItemBinding: GroupsItemBinding): RecyclerView.ViewHolder(groupsItemBinding.root){
-        fun bind(chatGroup: ChatGroup, clickListener: (ChatGroup) -> Unit){
-            groupsItemBinding.groupTextviewCardView.text = chatGroup.groupName
+        fun bind(chatGroupModel: ChatGroupModel, clickListener: (ChatGroupModel) -> Unit){
+            groupsItemBinding.groupTextviewCardView.text = chatGroupModel.groupName
             groupsItemBinding.listItemLayout.setOnClickListener {
-                clickListener(chatGroup)
+                clickListener(chatGroupModel)
             }
         }
     }
@@ -31,13 +32,10 @@ class GroupAdapter(private var groupList: List<ChatGroup>, private val clickList
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         var getItemPosition = groupList[position]
-        holder.bind(getItemPosition, clickListener)
-        holder.itemView.setOnClickListener {
-
-        }
+        return holder.bind(getItemPosition, clickListener)
     }
 
-    fun updateList(newList: List<ChatGroup>) {
+    fun updateList(newList: List<ChatGroupModel>) {
         this.groupList = newList
         notifyDataSetChanged()
     }
